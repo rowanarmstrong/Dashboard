@@ -1,67 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".MainActivity"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="#FFFFFF"
+    tools:context=".MainActivity">
 
-
-    <ImageView
-        android:id="@+id/layout"
-        android:layout_width="wrap_content"
-
-        android:layout_height="500dp"
-        android:layout_gravity="center"
-        android:scaleType="fitCenter"
-        android:src="@drawable/gait" />
-
-
-    <TextView
-        android:id="@+id/tv_steps"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|start"
-
-        android:layout_marginStart="100dip"
-
-        android:layout_marginTop="138dp"
-        android:layout_marginBottom="20dip"
-        android:textColor="@color/colorAccent" />
-
-    <TextView
-        android:id="@+id/tv_gait_speed"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-
-        android:layout_marginStart="250dip"
-
-        android:layout_marginTop="138dp"
-        android:layout_marginEnd="0dip"
-        android:layout_marginBottom="85dip"
-        android:textColor="@color/colorAccent" />
 
     <Button
         android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|top"
-        android:layout_marginBottom="20dip"
+        android:layout_alignParentTop="true"
         android:padding="12dip"
-        android:text="@string/start_pedometer"
 
+        android:text="@string/start_pedometer"
         android:textColor="#ffffffff" />
+
+    <ImageView
+        android:id="@+id/gait"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@drawable/gait" />
+
+    <TextView
+        android:id="@+id/tv_steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignRight="@id/gait"
+        android:layout_marginTop="70dip"
+        android:layout_marginRight="40dip"
+        android:fontFamily="@font/source_sans_pro_semibold"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp"
+        tools:layout_alignTop="@id/gait" />
+
+    <TextView
+        android:id="@+id/tv_gait_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignRight="@id/gait"
+        android:layout_alignBottom="@id/gait"
+        android:layout_marginRight="40dip"
+        android:layout_marginBottom="70dip"
+        android:fontFamily="@font/source_sans_pro_semibold"
+        android:gravity="center"
+        android:text="0 m/s"
+        android:textColor="@color/colorAccent"
+        android:textSize="30sp" />
+
 
     <Button
         android:id="@+id/btn_stop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
 
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dip"
         android:padding="12dip"
         android:text="@string/stop_pedometer"
         android:textColor="#ffffffff" />
 
 
-
-</FrameLayout>
+</RelativeLayout>

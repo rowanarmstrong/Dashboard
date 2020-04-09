@@ -10,7 +10,7 @@
     </style>
 
     <style name="MyTheme">
-        <item name="android:textColor">@color/red</item>
+        <item name="android:textColor">@color/lightpink</item>
     </style>
 
 </resources>

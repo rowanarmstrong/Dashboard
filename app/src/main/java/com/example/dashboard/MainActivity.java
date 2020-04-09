@@ -99,6 +99,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         new Emergency_Information()).commit();
 
                 break;
+
+            case R.id.nav_emergency2:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new Emergency_Information()).commit();
+
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);

@@ -37,8 +37,10 @@
         <menu>
             <item
                 android:id="@+id/nav_emergency"
-                android:icon="@drawable/ic_emergency"
-                android:title="EMERGENCY" />
+                android:title="" />
+            <item
+                android:id="@+id/nav_emergency2"
+                android:title="" />
         </menu>
     </item>
 

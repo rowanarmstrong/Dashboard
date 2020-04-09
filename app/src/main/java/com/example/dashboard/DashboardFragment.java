@@ -63,14 +63,12 @@ public class DashboardFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
-        if(timeOfDay >= 0 && timeOfDay < 12){
-            goodsomething.setText("Good Morning Rowan");
-        }else if(timeOfDay >= 12 && timeOfDay < 16){
-            goodsomething.setText("Good Afternoon Rowan");
-        }else if(timeOfDay >= 16 && timeOfDay < 21){
-            goodsomething.setText("Good Evening Rowan");
-        }else if(timeOfDay >= 21 && timeOfDay < 24){
-            goodsomething.setText("Good Morning Rowan");
+        if (timeOfDay >= 0 && timeOfDay < 12) {
+            goodsomething.setText("Good Morning");
+        } else if (timeOfDay >= 12 && timeOfDay < 18) {
+            goodsomething.setText("Good Afternoon");
+        } else if (timeOfDay >= 18 && timeOfDay < 24) {
+            goodsomething.setText("Good Evening");
         }
 
 
@@ -85,20 +83,28 @@ public class DashboardFragment extends Fragment {
         calendar2 = Calendar.getInstance();
         dateFormat2 = new SimpleDateFormat("EEE");
         date2 = dateFormat2.format(calendar2.getTime());
-        dateTimeDisplay2.setText(date2 + "day");
 
-
-
-
-
-        int maxItems = 100;
-        backgroundColors = new int[maxItems];
-        textColors = new int[maxItems];
-
-        for(int i=0;i<maxItems;i++){
-            backgroundColors[i] = Color.LTGRAY;
-            textColors[i] = Color.BLACK;
+        if (date2.equals("Mon") || date2.equals("Fri") || date2.equals("Sun")) {
+            dateTimeDisplay2.setText(date2 + "day");
+        } else if (date2.equals("Thu")) {
+            dateTimeDisplay2.setText(date2 + "rsday");
+        } else if (date2.equals("Tue")) {
+            dateTimeDisplay2.setText(date2 + "sday");
+        } else if (date2.equals("Wed")) {
+            dateTimeDisplay2.setText(date2 + "nesday");
+        } else if (date2.equals("Sat")) {
+            dateTimeDisplay2.setText(date2 + "urday");
         }
+
+
+            int maxItems = 100;
+            backgroundColors = new int[maxItems];
+            textColors = new int[maxItems];
+
+            for (int i = 0; i < maxItems; i++) {
+                backgroundColors[i] = getResources().getColor(R.color.lightpink);
+                textColors[i] = Color.BLACK;
+            }
 
             final ListView listView = getView().findViewById(R.id.listView);
             final TextAdapter adapter = new TextAdapter();
@@ -108,80 +114,80 @@ public class DashboardFragment extends Fragment {
             listView.setAdapter(adapter);
 
 
-    }
-
-
-
-    private void readInfo(){
-        File file = new File(context.getFilesDir(), "saved");
-        if(!file.exists()){
-            return;
         }
 
-        try {
-            FileInputStream is = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            String line = reader.readLine();
-            while (line != null) {
-                list.add(line);
-                line = reader.readLine();
+
+        private void readInfo () {
+            File file = new File(context.getFilesDir(), "saved");
+            if (!file.exists()) {
+                return;
             }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 
-    class TextAdapter extends BaseAdapter {
-
-        List<String> list = new ArrayList<>();
-
-        int[] backgroundColors;
-        int[] textColors;
-
-        void setData(List<String> mList, int[] mBackgroundColors, int[] mTextColors){
-            list.clear();
-            list.addAll(mList);
-
-            backgroundColors = new int[list.size()];
-            textColors = new int[list.size()];
-
-            for(int i = 0; i < list.size(); i++) {
-                backgroundColors[i] = mBackgroundColors[i];
-                textColors[i] = mTextColors[i];
+            try {
+                FileInputStream is = new FileInputStream(file);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                String line = reader.readLine();
+                while (line != null) {
+                    list.add(line);
+                    line = reader.readLine();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            notifyDataSetChanged();
         }
 
-        @Override
-        public int getCount(){
-            return list.size();
-        }
-        @Override
-        public Object getItem(int position){
-            return null;
-        }
+        class TextAdapter extends BaseAdapter {
 
-        @Override
-        public long getItemId(int position){
-            return 0;
-        }
+            List<String> list = new ArrayList<>();
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                LayoutInflater inflater = (LayoutInflater)
-                        DashboardFragment.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(R.layout.reminder_item, parent, false);
+            int[] backgroundColors;
+            int[] textColors;
+
+            void setData(List<String> mList, int[] mBackgroundColors, int[] mTextColors) {
+                list.clear();
+                list.addAll(mList);
+
+                backgroundColors = new int[list.size()];
+                textColors = new int[list.size()];
+
+                for (int i = 0; i < list.size(); i++) {
+                    backgroundColors[i] = mBackgroundColors[i];
+                    textColors[i] = mTextColors[i];
+                }
+                notifyDataSetChanged();
             }
-            TextView textView = convertView.findViewById(R.id.task);
 
-            textView.setBackgroundColor(backgroundColors[position]);
-            textView.setTextColor(textColors[position]);
-            textView.setText(list.get(position));
+            @Override
+            public int getCount() {
+                return list.size();
+            }
 
-            return convertView;
+            @Override
+            public Object getItem(int position) {
+                return null;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return 0;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    LayoutInflater inflater = (LayoutInflater)
+                            DashboardFragment.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    convertView = inflater.inflate(R.layout.reminder_item, parent, false);
+                }
+                TextView textView = convertView.findViewById(R.id.task);
+
+                textView.setBackgroundColor(backgroundColors[position]);
+                textView.setTextColor(textColors[position]);
+                textView.setText(list.get(position));
+
+                return convertView;
+            }
         }
+
+
     }
-
-
-}

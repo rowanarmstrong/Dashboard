@@ -56,7 +56,7 @@ public class ReminderMain extends Fragment {
         textColors = new int[maxItems];
 
         for(int i=0;i<maxItems;i++){
-            backgroundColors[i] = Color.LTGRAY;
+            backgroundColors[i] = getResources().getColor(R.color.lightpink);
             textColors[i] = Color.BLACK;
         }
 
