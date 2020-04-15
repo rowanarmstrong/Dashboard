@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -36,8 +37,24 @@
             android:name="com.example.dashboard.stratMap"
             android:label="@string/title_activity_strat_map"></activity>
 
+        <activity android:name=".Setting"></activity>
+
         <activity android:name=".WarningAlarm"></activity>
-        <service android:name=".System_Service" />
+
+        <service android:name=".System_Service"
+            android:enabled="true" />
+
+        <service android:name=".StepService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true" />
+
+        <receiver
+            android:name="com.example.dashboard.SensorRestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+        </receiver>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

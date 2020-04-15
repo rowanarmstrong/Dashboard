@@ -1,14 +1,19 @@
 package com.example.dashboard;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.SmsManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import static com.example.dashboard.Setting.number_to_warning_alarm;
+
+
 
 public class WarningAlarm extends Activity implements OnClickListener {
 
@@ -20,6 +25,8 @@ public class WarningAlarm extends Activity implements OnClickListener {
     private int counter = 0;
     private String currenttime = "";
     private SmsManager smsManager;
+    private String number_text="";
+    private String number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +67,17 @@ public class WarningAlarm extends Activity implements OnClickListener {
         public void run() {
             if (!isStopCount) {
                 counter += 1;
-                if (counter == 900) //30s  1s = 60
+                if (counter == 1800) //30s  1s = 60
                 {
                     Toast.makeText(getApplicationContext(), "send message", Toast.LENGTH_LONG).show(); //long 2s
-                    smsManager.sendTextMessage("+44 7713822766", null, "Rowan has fallen and needs your help. :)", null, null);
+                    Intent intent = getIntent();
+                    number_text = intent.getStringExtra(number_to_warning_alarm);
+                    if(TextUtils.isEmpty(number_text)){//判断是否为空
+                        number = "+44 7421271993";
+                    }else{
+                        number = number_text;
+                    }
+                    smsManager.sendTextMessage(number, null, "Fall Detection", null, null);
                 }
                 currenttime = TimeUtil.getFormatTime(counter);
                 tv_timer.setText(currenttime);

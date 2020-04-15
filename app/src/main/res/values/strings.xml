@@ -3,8 +3,8 @@
     
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="start_pedometer">Start Pedometer</string>
-    <string name="stop_pedometer">Stop Pedometer</string>
+    <string name="start_pedometer">Reset Steps</string>
+    <string name="stop_pedometer">Upload to Cloud</string>
     <string name="title_activity_strat_map">Map</string>
 
     <string name="action_setting">Setting</string>

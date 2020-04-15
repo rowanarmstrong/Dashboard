@@ -1,5 +1,8 @@
 package com.example.dashboard;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
@@ -54,6 +57,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        createNotificationChannel();
+
+
+
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.app_name);
+            String description = getString(R.string.action_setting);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("StepChannel", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
     @Override
@@ -105,7 +128,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         new Emergency_Information()).commit();
 
                 break;
+
+            case R.id.nav_emergency3:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new Emergency_Information()).commit();
+
+                break;
+
+            case R.id.nav_emergency4:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new Emergency_Information()).commit();
+
+                break;
         }
+
+
 
         drawer.closeDrawer(GravityCompat.START);
         return true;

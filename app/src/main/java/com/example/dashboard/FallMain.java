@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 public class FallMain extends Fragment implements View.OnClickListener {
     private Button mBtnStart;
     private Button mBtnStop;
+    private Button mBtnSetting;
     private static Context mContext = null;
 
 
@@ -29,8 +30,10 @@ public class FallMain extends Fragment implements View.OnClickListener {
 
         mBtnStart = (Button) getView().findViewById(R.id.button1);
         mBtnStop = (Button) getView().findViewById(R.id.button2);
+        mBtnSetting = (Button) getView().findViewById(R.id.button3);
         mBtnStart.setOnClickListener(this);
         mBtnStop.setOnClickListener(this);
+        mBtnSetting.setOnClickListener(this);
 
     }
     
@@ -54,6 +57,10 @@ public class FallMain extends Fragment implements View.OnClickListener {
         }
         if (v == mBtnStop) {
             this.getActivity().stopService(new Intent(getActivity(),System_Service.class));
+        }
+        if (v == mBtnSetting) {
+            Intent intent = new Intent(getActivity(),Setting.class);
+            startActivity(intent);
         }
     }
 }

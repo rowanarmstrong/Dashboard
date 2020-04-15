@@ -13,11 +13,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import static com.example.dashboard.Setting.weight_to_system_service;
+
 public class System_Service extends Service implements SensorEventListener {
     private int mInterval = 300;//the internal time
     private long LastTime;
     private SensorManager sensorManager;
     private Vibrator vibrator;
+    private float f;
 
     @Nullable
     @Override
@@ -67,8 +70,9 @@ public class System_Service extends Service implements SensorEventListener {
         float x = values[0]; // x  right positive
         float y = values[1]; // y  front
         float z = values[2]; // z  up
+        f = Float.valueOf(weight_to_system_service);
 
-        if ((Math.abs(x) > 22 || Math.abs(y) > 22 || Math.abs(z) > 18)) {
+        if ((Math.abs(x) > (f/10+15) || Math.abs(y) > (f/10+15) || Math.abs(z) > (f/10+10))) {
             vibrator.vibrate(100);
             Toast.makeText(getApplicationContext(), "timekeeper", Toast.LENGTH_LONG).show();
             Intent activityIntent = new Intent(System_Service.this, WarningAlarm.class);
