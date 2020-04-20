@@ -5,24 +5,36 @@
     android:layout_height="match_parent"
     tools:context=".FallMain">
 
-    <Button
-        android:id="@+id/button1"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="124dp"
+        android:src="@drawable/fall"/>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:text="start" />
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="260dp"
-        android:layout_marginBottom="124dp"
+        android:layout_marginTop="410dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:text="stop" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="470dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Setting" />
 
 </RelativeLayout>

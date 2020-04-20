@@ -1,15 +1,29 @@
 package com.example.dashboard;
 
+/*
+Welcome to the Step Detector!!
+This class makes up the second part of our Movement Pattern Algorithm, which begins with the SensorFilter.
+The values from the Sensor Filter are sent here, and we use the time value to ensure that steps occur at a reasonable rate.
+
+
+Student Name: Rowan Armstrong
+Student ID: s1541585
+
+ */
+
 public class StepDetector {
 
+    // Our Accelerator and Velocity ring determines the threshold for what counts as a step
     private static final int ACCEL_RING_SIZE = 50;
     private static final int VEL_RING_SIZE = 10;
 
     // change this threshold according to your sensitivity preferences
     private static final float STEP_THRESHOLD = 50f;
 
+    //This is the minimum time between steps (0.25 seconds)
     private static final int STEP_DELAY_NS = 250000000;
 
+    // We want these variables to float because they will be changing all the time
     private int accelRingCounter = 0;
     private float[] accelRingX = new float[ACCEL_RING_SIZE];
     private float[] accelRingY = new float[ACCEL_RING_SIZE];
@@ -19,20 +33,20 @@ public class StepDetector {
     private long lastStepTimeNs = 0;
     private float oldVelocityEstimate = 0;
 
+    // Shhhh listen for steps
     private StepCounter listener;
-
     public void registerListener(StepCounter listener) {
         this.listener = listener;
     }
 
-
+    //When a step is potentially picked up, we need to check out the accelerometer values
     public void updateAccel(long timeNs, float x, float y, float z) {
         float[] currentAccel = new float[3];
         currentAccel[0] = x;
         currentAccel[1] = y;
         currentAccel[2] = z;
 
-        // First step is to update our guess of where the global z vector is.
+        // First step is to update where our guess of where the global z vector is.
         accelRingCounter++;
         accelRingX[accelRingCounter % ACCEL_RING_SIZE] = currentAccel[0];
         accelRingY[accelRingCounter % ACCEL_RING_SIZE] = currentAccel[1];

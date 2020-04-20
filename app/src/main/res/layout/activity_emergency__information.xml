@@ -8,9 +8,12 @@
     tools:context=".Emergency_Information">
 
     <TextView
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/Latitude"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     <TextView
@@ -20,8 +23,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     <TextView
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:text="@string/Longitude"
         android:textAppearance="?android:attr/textAppearanceSmall"/>
 
@@ -35,6 +42,8 @@
         android:id="@+id/Call"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="200dp"
         android:text="Emergency Call" />
 
@@ -42,6 +51,8 @@
         android:id="@+id/Location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:text="Location Share" />
 

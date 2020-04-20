@@ -1,24 +1,34 @@
 package com.example.dashboard;
 
+/* This file get the location of users and share it with guardian by sending message*/
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.content.Intent;
+import static com.example.dashboard.ReminderMain.context;
+import static com.example.dashboard.Setting.number_to_warning_alarm;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import java.io.IOException;
+import java.util.List;
 
 public class Emergency_Information extends Fragment implements View.OnClickListener{
 
@@ -31,28 +41,25 @@ public class Emergency_Information extends Fragment implements View.OnClickListe
     private SmsManager smsManager;
     private String Latitude;
     private String Longitude;
-    private String PhoneNumber = "+44 7730136257";
-
+    private String phonenumber;
     private Button Call;
     private Button Share;
+    private String number_text="";
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {  //get access from dashboard
         return inflater.inflate(R.layout.activity_emergency__information, container, false);
-
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        smsManager = SmsManager.getDefault();
-        locationlistener = new mylocationlistener();
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE); //get positioning service
+        smsManager = SmsManager.getDefault();   //get massage manager
+        locationlistener = new mylocationlistener();    //location monitor
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) { //check if the user open the GPS service
             Toast.makeText(getActivity(), "Open GPS", Toast.LENGTH_LONG).show();
         }
         if (getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && getActivity().checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -65,50 +72,48 @@ public class Emergency_Information extends Fragment implements View.OnClickListe
             // for Activity#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationlistener);
-        bestprovider = locationManager.getBestProvider(getcriteria(), true);
-        locationManager.requestLocationUpdates(bestprovider, 1000, 5, locationlistener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationlistener);   //get location through GPS
+        bestprovider = locationManager.getBestProvider(getcriteria(), true);    //Get the best service
+        locationManager.requestLocationUpdates(bestprovider, 1000, 5, locationlistener);  //update location every second
+
+        Intent  intent = getActivity().getIntent();
+        number_text =  intent.getStringExtra(number_to_warning_alarm);
+        if(TextUtils.isEmpty(number_text)){  //Determines if it is null
+            phonenumber = "+44 7421271993";  ////default phone number
+        }else{
+            phonenumber = number_text;
+        }
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-
-        textLat = (TextView) getView().findViewById(R.id.textlat);
-        textLong = (TextView) getView().findViewById(R.id.textlong);
-
-
-
-        Call = (Button) getView().findViewById(R.id.Call);
-        Share = (Button) getView().findViewById(R.id.Location);
-        Call.setOnClickListener(this);
+        textLat = (TextView) getView().findViewById(R.id.textlat); //text view for latitude
+        textLong = (TextView) getView().findViewById(R.id.textlong);  //text view for longitude
+        Call = (Button) getView().findViewById(R.id.Call);  //emergency call button
+        Share = (Button) getView().findViewById(R.id.Location); //share location button
+        Call.setOnClickListener(this); //monitor if the button is clicked
         Share.setOnClickListener(this);
-
-
     }
 
     @Override
     public void onClick(View v) {
-
         if (v == Call) {
-            Intent intent = new Intent(Intent.ACTION_CALL);
-            Uri data = Uri.parse("tel:" + PhoneNumber);
-            intent.setData(data);
-            startActivity(intent);
+            Intent intent1 = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phonenumber, null));
+            startActivity(intent1);
+
+//            Intent intent = new Intent(Intent.ACTION_CALL); //start a new intent that making a phone call
+//            Uri data = Uri.parse("tel:" + phonenumber); // set the phone number
+//            intent.setData(data);
+//            startActivity(intent);
         }
         if (v == Share) {
-            String message = getResources().getString(R.string.location);
-            message = String.format(message, Latitude, Longitude);
-            smsManager.sendTextMessage(PhoneNumber, null, message, null, null);
+            String message = getResources().getString(R.string.location); //get the format of massage from string
+            message = String.format(message, Latitude, Longitude); //put the value of Latitude and Longitude to the message
+            smsManager.sendTextMessage(phonenumber, null, message, null, null); //send the message
         }
-
     }
 
-
-
-
-
-    private Criteria getcriteria() {
+    private Criteria getcriteria() {    //Parameter setting for location location service
         criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         criteria.setAltitudeRequired(false);
@@ -119,14 +124,13 @@ public class Emergency_Information extends Fragment implements View.OnClickListe
     }
 
     class mylocationlistener implements LocationListener {
-
         @Override
         public void onLocationChanged(Location location) {
             if (location != null) {
-                double tlat = location.getLatitude();
-                double tlong = location.getLongitude();
-                textLat.setText(Double.toString(tlat));
-                textLong.setText(Double.toString(tlong));
+                double tlat = location.getLatitude();   //get latitude and set it as double
+                double tlong = location.getLongitude();  //get longitude and set it as double
+                textLat.setText(Double.toString(tlat));     //show the latitude on the layout
+                textLong.setText(Double.toString(tlong));   //show the longitude on the layout
                 Latitude = Double.toString(tlat);
                 Longitude = Double.toString(tlong);
             }
@@ -145,11 +149,10 @@ public class Emergency_Information extends Fragment implements View.OnClickListe
         }
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
-        locationManager.removeUpdates(locationlistener);
+        locationManager.removeUpdates(locationlistener);    //stop positioning service
     }
 
     @Override
@@ -165,6 +168,6 @@ public class Emergency_Information extends Fragment implements View.OnClickListe
             // for Activity#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(bestprovider, 0, 0, locationlistener);
+        locationManager.requestLocationUpdates(bestprovider, 0, 0, locationlistener);   //recover updating location
     }
 }
